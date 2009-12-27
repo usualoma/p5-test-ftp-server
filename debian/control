@@ -1,0 +1,16 @@
+Source: libtest-ftp-server-perl
+Section: perl
+Priority: optional
+Build-Depends: debhelper (>= 7)
+Build-Depends-Indep: perl
+Maintainer: Taku Amano <taku@toi-planning.net>
+Standards-Version: 3.8.3
+Homepage: http://search.cpan.org/dist/Test-FTP-Server/
+
+Package: libtest-ftp-server-perl
+Architecture: all
+Depends: ${perl:Depends}, ${misc:Depends}
+Description: ftpd runner for tests
+ Test::FTP::Server run Net::FTPServer internally. The server's settings can be
+ specified as a parameter, therefore it is not necessary to prepare the
+ configuration file.

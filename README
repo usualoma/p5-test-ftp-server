@@ -1,0 +1,93 @@
+NAME
+    Test::FTP::Server - ftpd runner for tests
+
+SYNOPSIS
+      use Test::TCP;
+      use Test::FTP::Server;
+
+      my $userid = 'testuser';
+      my $password = 'testpass';
+      my $root_directory = '/path/to/root_directory';
+
+      my $server = Test::FTP::Server->new(
+        'users' => [{
+          'userid' => $userid,
+          'password' => $password,
+          'root' => $root_directory,
+        }],
+        'ftpd_conf' => {
+          'port' => $port,
+          'daemon mode' => 1,
+          'run in background' => 0,
+        },
+      );
+      $server->run;
+
+DESCRIPTION
+    "Test::FTP::Server" run "Net::FTPServer" internally. The server's
+    settings can be specified as a parameter, therefore it is not necessary
+    to prepare the configuration file.
+
+FUNCTIONS
+  new
+    Create a ftpd instance.
+
+            if (my $users = $opt{'users'}) {
+            }
+
+            if ($opt{'ftpd_conf'}) {
+
+    The instance is terminated when the returned object is being DESTROYed.
+    If required programs (mysql_install_db and mysqld) were not found, the
+    function returns undef and sets appropriate message to
+    $Test::mysqld::errstr.
+
+  run
+    Run a ftpd instance.
+
+EXAMPLE
+      use Test::FTP::Server;
+      use Test::TCP;
+      use Net::FTP;
+
+      my $userid = 'testid';
+      my $password = 'testpass';
+      my $sandbox = '/path/to/sandbox_base';
+
+      test_tcp(
+        server => sub {
+          my $port = shift;
+
+          Test::FTP::Server->new(
+            'users' => [{
+              'userid' => $userid,
+              'password' => $password,
+              'sandbox' => $sandbox,
+            }],
+            'ftpd_conf' => {
+              'port' => $port,
+              'daemon mode' => 1,
+              'run in background' => 0,
+            },
+          )->run;
+        },
+        client => sub {
+          my $port = shift;
+
+          my $ftp = Net::FTP->new('localhost', Port => $port);
+          ok($ftp);
+          ok($ftp->login($userid, $password));
+          ok($ftp->quit());
+        },
+      );
+
+AUTHOR
+    Taku Amano <taku@toi-planning.net>
+
+SEE ALSO
+    Net::FTPServer
+
+LICENSE
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
