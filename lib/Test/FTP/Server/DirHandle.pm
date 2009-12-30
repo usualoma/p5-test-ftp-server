@@ -78,3 +78,29 @@ sub AUTOLOAD {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+Test::FTP::Server::DirHandle - The directory handle for Test::FTP::Server.
+
+=head1 SYNOPSIS
+
+  use Test::FTP::Server::DirHandle;
+
+=head1 DESCRIPTION
+
+=head1 AUTHOR
+
+Taku Amano E<lt>taku@toi-planning.netE<gt>
+
+=head1 SEE ALSO
+
+L<Test::FTP::Server>
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut

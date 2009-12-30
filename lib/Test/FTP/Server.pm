@@ -217,6 +217,16 @@ Run a ftpd instance.
     },
   );
 
+=head1 NOTES
+
+=over 4
+
+=item *
+
+Test::FTP::Server is for test use only. "root" and "sandbox" is not using chroot to keep available for any user. Therefore, there is a security risk when a server opened to the public. 
+
+=back
+
 =head1 AUTHOR
 
 Taku Amano E<lt>taku@toi-planning.netE<gt>

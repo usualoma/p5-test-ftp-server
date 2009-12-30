@@ -117,6 +117,11 @@ EXAMPLE
         },
       );
 
+NOTES
+    *   Test::FTP::Server is for test use only. "root" and "sandbox" is not
+        using chroot to keep available for any user. Therefore, there is a
+        security risk when a server opened to the public.
+
 AUTHOR
     Taku Amano <taku@toi-planning.net>
 

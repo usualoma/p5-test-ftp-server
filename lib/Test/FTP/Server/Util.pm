@@ -3,6 +3,8 @@ package Test::FTP::Server::Util;
 use strict;
 use warnings;
 
+our $VERSION = '0.01';
+
 use Cwd qw/ realpath /;
 use File::Spec;
 
@@ -58,3 +60,29 @@ sub normalize {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+Test::FTP::Server::Util - The utilities for Test::FTP::Server.
+
+=head1 SYNOPSIS
+
+  use Test::FTP::Server::Util;
+
+=head1 DESCRIPTION
+
+=head1 AUTHOR
+
+Taku Amano E<lt>taku@toi-planning.netE<gt>
+
+=head1 SEE ALSO
+
+L<Test::FTP::Server>
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
