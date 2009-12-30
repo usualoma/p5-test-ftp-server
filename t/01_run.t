@@ -11,8 +11,8 @@ use Test::TCP;
 
 use Net::FTP;
 
-my $userid = 'testid';
-my $password = 'testpass';
+my $user = 'testid';
+my $pass = 'testpass';
 
 test_tcp(
 	server => sub {
@@ -20,8 +20,8 @@ test_tcp(
 
 		my $server = Test::FTP::Server->new(
 			'users' => [{
-				'userid' => $userid,
-				'password' => $password,
+				'user' => $user,
+				'pass' => $pass,
 				'root' => '/',
 			}],
 			'ftpd_conf' => {
@@ -39,7 +39,7 @@ test_tcp(
 
 		my $ftp = Net::FTP->new('localhost', Port => $port);
 		ok($ftp);
-		ok($ftp->login($userid, $password));
+		ok($ftp->login($user, $pass));
 		ok($ftp->quit());
 	},
 );

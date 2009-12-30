@@ -16,7 +16,7 @@ use base qw/ Net::FTPServer::Full::Server /;
 sub test_users {
 	my $self = shift;
 	$self->{'_test_users'} = shift if @_;
-	$self->{'_test_users'} || [];
+	$self->{'_test_users'} || undef;
 }
 
 sub options_hook {
@@ -44,9 +44,11 @@ sub authentication_hook {
 	my $self = shift;
 	my ($user, $pass, $user_is_anon) = @_;
 
-	return 1 if grep({
-		$_->{'userid'} eq $user && $_->{'password'} eq $pass
-	} @{ $self->test_users });
+	if (defined(my $users = $self->test_users)) {
+		return scalar(grep({
+			$_->{'user'} eq $user && $_->{'pass'} eq $pass
+		} @$users)) ? 0 : -1;
+	}
 
 	$self->SUPER::authentication_hook(@_);
 }
@@ -54,12 +56,14 @@ sub authentication_hook {
 sub user_login_hook {
 	my $self = shift;
 
-	my ($u) = grep({
-		$_->{'userid'} eq $self->{'user'}
-	} @{ $self->test_users });
-	if ($u) {
-		$self->{'_test_root'} = $u->{'root'} if $u->{'root'};
-		return 1;
+	if (defined(my $users = $self->test_users)) {
+		my ($u) = grep({
+			$_->{'user'} eq $self->{'user'}
+		} @$users);
+		if ($u && $u->{'root'}) {
+			$self->{'_test_root'} = $u->{'root'};
+		}
+		return;
 	}
 
 	$self->SUPER::user_login_hook(@_);

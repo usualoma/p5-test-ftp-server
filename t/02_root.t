@@ -16,8 +16,8 @@ use File::Copy::Recursive qw/ rcopy /;
 
 use Net::FTP;
 
-my $userid = 'testid';
-my $password = 'testpass';
+my $user = 'testid';
+my $pass = 'testpass';
 
 my $root = tempdir( CLEANUP => 1 );
 (my $base = __FILE__) =~ s/\.t$//;
@@ -31,8 +31,8 @@ test_tcp(
 
 		Test::FTP::Server->new(
 			'users' => [{
-				'userid' => $userid,
-				'password' => $password,
+				'user' => $user,
+				'pass' => $pass,
 				'root' => $root,
 			}],
 			'ftpd_conf' => {
@@ -47,7 +47,7 @@ test_tcp(
 
 		my $ftp = Net::FTP->new('localhost', Port => $port);
 		ok($ftp);
-		ok($ftp->login($userid, $password));
+		ok($ftp->login($user, $pass));
 		is(
 			join(',', sort($ftp->ls('/'))),
 			join(',', sort(map(basename($_), glob(File::Spec->catfile($root, '*')))))

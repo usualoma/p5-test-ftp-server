@@ -53,6 +53,12 @@ sub new {
 				'It\'s necessary to specify parameter that is ' .
 				'"root" or "sandbox" for each user.'
 			) unless $u->{'root'};
+
+			croak($u->{'root'} . ' is not directory.') unless -d $u->{'root'};
+			croak('"user" is required.') unless $u->{'user'};
+			croak('"pass" is not directory.') unless $u->{'pass'};
+
+			$u->{'root'} =~ s{/+$}{};
 		}
 		push(@args, '_test_users', $users);
 	}
@@ -92,14 +98,14 @@ Test::FTP::Server - ftpd runner for tests
   use Test::TCP;
   use Test::FTP::Server;
 
-  my $userid = 'testuser';
-  my $password = 'testpass';
+  my $user = 'testuser';
+  my $pass = 'testpass';
   my $root_directory = '/path/to/root_directory';
 
   my $server = Test::FTP::Server->new(
     'users' => [{
-      'userid' => $userid,
-      'password' => $password,
+      'user' => $user,
+      'pass' => $pass,
       'root' => $root_directory,
     }],
     'ftpd_conf' => {

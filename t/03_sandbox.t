@@ -15,8 +15,8 @@ use Test::TCP;
 
 use Net::FTP;
 
-my $userid = 'testid';
-my $password = 'testpass';
+my $user = 'testid';
+my $pass = 'testpass';
 (my $sandbox = __FILE__) =~ s/\.t$//;
 (my $samplefile = __FILE__) =~ s/\.t$/.txt/;
 
@@ -26,8 +26,8 @@ test_tcp(
 
 		Test::FTP::Server->new(
 			'users' => [{
-				'userid' => $userid,
-				'password' => $password,
+				'user' => $user,
+				'pass' => $pass,
 				'sandbox' => $sandbox,
 			}],
 			'ftpd_conf' => {
@@ -42,7 +42,7 @@ test_tcp(
 
 		my $ftp = Net::FTP->new('localhost', Port => $port);
 		ok($ftp);
-		ok($ftp->login($userid, $password));
+		ok($ftp->login($user, $pass));
 		is(
 			join(',', sort($ftp->ls('/'))),
 			join(',', sort(map(basename($_), glob(File::Spec->catfile($sandbox, '*')))))
