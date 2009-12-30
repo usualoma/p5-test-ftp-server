@@ -116,6 +116,29 @@ Test::FTP::Server - ftpd runner for tests
   );
   $server->run;
 
+or
+
+  use Test::TCP;
+  use Test::FTP::Server;
+
+  my $user = 'testuser';
+  my $pass = 'testpass';
+  my $sandbox_base = '/path/to/sandbox_base';
+
+  my $server = Test::FTP::Server->new(
+    'users' => [{
+      'user' => $user,
+      'pass' => $pass,
+      'sandbox' => $sandbox_base,
+    }],
+    'ftpd_conf' => {
+      'port' => $port,
+      'daemon mode' => 1,
+      'run in background' => 0,
+    },
+  );
+  $server->run;
+
 =head1 DESCRIPTION
 
 C<Test::FTP::Server> run C<Net::FTPServer> internally.
@@ -127,17 +150,35 @@ The server's settings can be specified as a parameter, therefore it is not neces
 
 Create a ftpd instance.
 
-	if (my $users = $opt{'users'}) {
-	}
+B<%options>
 
-	if ($opt{'ftpd_conf'}) {
+=over 3
 
+=item C<users>
 
-The instance is terminated when the returned object is being DESTROYed.  If required programs (mysql_install_db and mysqld) were not found, the function returns undef and sets appropriate message to $Test::mysqld::errstr.
+Definition of users.
+
+C<user> and C<pass> are used for login.
+
+If C<root> is specified, ftpd behaves as if the specified directory is the root directory. 
+
+If C<sandbox> is specified, The content of sandbox is copied into the temporary directory, and ftpd behaves as if the temporary directory is the root directory. The content of sandbox never changes by the user's operation.
+
+It is necessary to specify "root" or "sandbox". 
+
+=item C<ftpd_conf>
+
+The settings that is usually specified in "/etc/ftpd.conf" when using  L<Net::FTPServer>.
+
+Specified by the hash reference. 
+
+=back
+
 
 =head2 run
 
 Run a ftpd instance. 
+
 
 =head1 EXAMPLE
 
@@ -145,9 +186,9 @@ Run a ftpd instance.
   use Test::TCP;
   use Net::FTP;
 
-  my $userid = 'testid';
-  my $password = 'testpass';
-  my $sandbox = '/path/to/sandbox_base';
+  my $user = 'testid';
+  my $pass = 'testpass';
+  my $sandbox_base = '/path/to/sandbox_base';
 
   test_tcp(
     server => sub {
@@ -155,9 +196,9 @@ Run a ftpd instance.
 
       Test::FTP::Server->new(
         'users' => [{
-          'userid' => $userid,
-          'password' => $password,
-          'sandbox' => $sandbox,
+          'user' => $user,
+          'pass' => $pass,
+          'sandbox' => $sandbox_base,
         }],
         'ftpd_conf' => {
           'port' => $port,
@@ -171,8 +212,8 @@ Run a ftpd instance.
 
       my $ftp = Net::FTP->new('localhost', Port => $port);
       ok($ftp);
-      ok($ftp->login($userid, $password));
-      ok($ftp->quit());
+      ok($ftp->login($user, $pass));
+      ok($ftp->quit);
     },
   );
 
