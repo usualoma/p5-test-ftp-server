@@ -1,7 +1,7 @@
 use ExtUtils::MakeMaker;
 use Test::Dependencies
 exclude => [qw(
-	Test::Dependencies Test::Base Test::Perl::Critic
+	Test::Dependencies Test::Perl::Critic
 
 	Test::FTP::Server
 	Test::FTP::Server::Server
