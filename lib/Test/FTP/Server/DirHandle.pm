@@ -3,7 +3,7 @@ package Test::FTP::Server::DirHandle;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Net::FTPServer::Full::DirHandle;
 use Test::FTP::Server::FileHandle;

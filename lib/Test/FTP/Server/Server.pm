@@ -3,7 +3,7 @@ package Test::FTP::Server::Server;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Carp;
 use File::Temp qw/ tempfile tempdir /;

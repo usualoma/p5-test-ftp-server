@@ -3,7 +3,7 @@ package Test::FTP::Server::Util;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Cwd qw/ realpath /;
 use File::Spec;

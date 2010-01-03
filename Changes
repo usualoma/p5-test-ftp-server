@@ -1,4 +1,7 @@
 Revision history for Perl extension Test::FTP::Server
 
+0.011   Sun Jan  3 14:59:42 JST 2010
+        - Specified the required version for test.
+
 0.01    Sun Dec 27 09:45:04 2009
         - original version
