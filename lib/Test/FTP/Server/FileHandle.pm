@@ -8,6 +8,9 @@ our $VERSION = '0.011';
 use Net::FTPServer::Full::FileHandle;
 use Test::FTP::Server::Util;
 
+use File::Spec;
+use File::Basename;
+
 sub wrap {
 	my $class = shift;
 	my $super = shift;
@@ -22,6 +25,32 @@ sub isa {
 	my $self = shift;
 	my $class = shift;
 	$class eq 'Net::FTPServer::FileHandle';
+}
+
+sub move {
+	my $fh_wrap = shift;
+	my $dh_wrap = shift;
+
+	my $fh = $fh_wrap->{'handle'};
+	my $dh = $dh_wrap->{'handle'};
+	my $filename = shift;
+
+	die if $filename =~ /\//;	# Should never happen.
+
+	my $src = File::Spec->catfile(
+		$fh_wrap->{'_test_root'}, $fh->{'_pathname'}
+	);
+	my $dst = File::Spec->catfile(
+		$fh_wrap->{'_test_root'}, $dh->{'_pathname'}, $filename
+	);
+
+	rename $src, $dst or return -1;
+
+	$fh->{'_pathname'} = File::Spec->catfile(
+		dirname($dh->{'_pathname'}), $filename
+	);
+
+	return 0;
 }
 
 sub AUTOLOAD {
