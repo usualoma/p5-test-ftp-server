@@ -56,7 +56,7 @@ sub new {
 
 			croak($u->{'root'} . ' is not directory.') unless -d $u->{'root'};
 			croak('"user" is required.') unless $u->{'user'};
-			croak('"pass" is not directory.') unless $u->{'pass'};
+			croak('"pass" is required.') unless $u->{'pass'};
 
 			$u->{'root'} =~ s{/+$}{};
 		}
