@@ -21,7 +21,7 @@ sub execute {
 
 		# $handle->{_pathname} should be under the $parent->{'_test_root'}
 		if (my $realpath = realpath($handle->{_pathname})) {
-			my $reg = '^' . quotemeta($parent->{'_test_root'});
+			my $reg = '^' . quotemeta(realpath($parent->{'_test_root'}));
 			if ($realpath !~ m/$reg/) {
 				$handle->{_pathname} = $parent->{'_test_root'};
 			}
