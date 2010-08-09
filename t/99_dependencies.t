@@ -12,5 +12,9 @@ exclude => [qw(
 	Net::FTPServer::Full::FileHandle
 	Net::FTPServer::Full::DirHandle
 	Net::FTPServer::Full::Server
+
+
+	Test::TCP
+	File::Copy::Recursive
 )], style   => 'light';
 ok_dependencies();
