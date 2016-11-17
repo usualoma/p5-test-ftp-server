@@ -1,6 +1,26 @@
-use ExtUtils::MakeMaker;
-use Test::Dependencies
-exclude => [qw(
+use strict;
+use warnings;
+
+use strict;
+use warnings;
+use Test::More;
+
+SKIP: {
+    skip 'CPAN::Meta not installed', 1
+	unless eval 'require CPAN::Meta; 1';
+    skip 'File::Find::Rule::Perl not installed', 1
+	unless eval 'require File::Find::Rule::Perl; 1';
+    skip 'Test::Dependencies not installed', 1 
+	unless eval 'require Test::Dependencies; 1';
+
+    Test::Dependencies->import(exclude => [qw{ExtUtils::MakeMaker}],
+			       style => 'light');
+
+    my $meta = CPAN::Meta->load_file('MYMETA.yml');
+    my @files =
+	File::Find::Rule::Perl->perl_file->in('./lib', './t');
+
+    ok_dependencies($meta, \@files, ignores => [qw(
 	Test::Dependencies Test::Perl::Critic
 
 	Test::FTP::Server
@@ -13,8 +33,9 @@ exclude => [qw(
 	Net::FTPServer::Full::DirHandle
 	Net::FTPServer::Full::Server
 
-
 	Test::TCP
 	File::Copy::Recursive
-)], style   => 'light';
-ok_dependencies();
+        )]);
+};
+
+done_testing();
